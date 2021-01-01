@@ -2,7 +2,7 @@ import requests
 from selenium import webdriver
 from lxml import html
 import util
-from util import exception_safe
+from util import clean_string, exception_safe
 
 @exception_safe
 def check_ldlc(urls):
@@ -86,34 +86,38 @@ def check_top_achat(urls):
 
     return out_results
 
-def check_pc_componentes(url):
-    print(url)
-    tree = util.get_tree(url)
+@exception_safe
+def check_pc_componentes(urls):
+    out_results = []
+    for url in urls:
+        tree = util.get_tree(url)
 
-    list = tree.xpath(f"//header[@class = 'c-product-card__header']")
-    print(list)
-    
-    results = []
+        titres = tree.xpath(f"//div[@class = 'c-product-card__content']/header/h3/a/text()")
+        prixs = tree.xpath(f"//div[@class = 'c-product-card__content']/div[2]/div/span/text()")
+        dispos = tree.xpath(f"//div[@class = 'c-product-card__content']/div[3]/text()")
 
-    for i in range(1,int(nb) + 1):
-        prix_ = tree.xpath(f"//*[@id='listing']//*[@data-position='{i}']/div[2]/div[4]/div[1]/div/text()")[0][0:-1]
-        prix = util.make_num(prix_)
-        if(int(prix) >= 850):
-            continue
+        results = []
+        for titre, prix, dispo in zip(titres, prixs, dispos):
+            if(',' in prix):
+                prix = util.make_num(prix[0:-4])
+            else:
+                prix = util.make_num(prix)
 
-        titre = tree.xpath(f"//*[@id='listing']//*[@data-position='{i}']/div[2]/div[1]/div[1]/h3/a/text()")[0]
-        if('water' in titre.lower() or 'hydro' in titre.lower()):
-            continue
-        
-        dispo = tree.xpath(f"//*[@id='listing']//*[@data-position='{i}']/div[2]/div[3]/div/div[2]/div/span/text()")[0]
+            if(int(prix) >= 850):
+                continue
 
-        dispo_p2 = tree.xpath(f"//*[@id='listing']//*[@data-position='{i}']/div[2]/div[3]/div/div[2]/div/span/em/text()")
-        if len(dispo_p2) >= 1 :
-            dispo = dispo + ' ' + dispo_p2[0]
+            if('reacondicionado' in titre.lower() or 'recondicionado' in titre.lower() or 'water' in titre.lower() or 'hydro' in titre.lower()):
+                continue
+                
+            if(util.clean_string(dispo).lower() == "sin fecha de entrada"):
+                dispo = "Rupture"
+            else:
+                dispo = "Check dispo"
 
-        results.append(('pccomponents.com    ' + util.clean_string(titre), util.clean_string(dispo), util.clean_string(prix)))
+            results.append(('pccomponentes.com    ' + util.clean_string(titre), dispo, util.clean_string(prix))) 
 
-        return results
+        out_results += results
+    return out_results
 
         
 @exception_safe

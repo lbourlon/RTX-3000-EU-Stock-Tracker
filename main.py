@@ -9,7 +9,6 @@ nvidia_founders_url = util.nvidia_founders
 if __name__ == "__main__":
     nvidia_results, ldlc_results, materiel_results, top_achat_results, pc_componentes_results = ([], [], [], [], [])
 
-    """
     print("- Booting Selenium Firefox Webdriver")
     web_driver = bot.open_web_driver()
 
@@ -25,12 +24,9 @@ if __name__ == "__main__":
     print("- Checking topachat.com")
     top_achat_results = bot.check_top_achat(util.top_achat_url)
 
-    """
-    full_list = ldlc_results + materiel_results + nvidia_results + top_achat_results + pc_componentes_results
-    # full_list = util.filter_results(full_list)
-
-    
     print("- Checking pccomponentes.com")
-    pc_componentes_results = bot.check_top_achat(util.pc_componentes_urls[0])
+    pc_componentes_results = bot.check_pc_componentes(util.pc_componentes_urls)
 
+    full_list = ldlc_results + materiel_results + nvidia_results + top_achat_results + pc_componentes_results
+    full_list = util.filter_results(full_list)
     util.print_results(full_list)

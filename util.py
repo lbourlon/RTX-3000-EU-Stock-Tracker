@@ -17,9 +17,10 @@ top_achat_url = ["https://www.topachat.com/pages/produits_cat_est_micro_puis_rub
                  "https://www.topachat.com/pages/produits_cat_est_micro_puis_rubrique_est_wgfx_pcie_puis_ordre_est_P_puis_sens_est_ASC_puis_mc_est_rtx%252B3070.html",
                  "https://www.topachat.com/pages/produits_cat_est_micro_puis_rubrique_est_wgfx_pcie_puis_mc_est_rtx%252B3080.html"]
 
-pc_componentes_urls = ["https://www.pccomponentes.com/buscar/?query=rtx+3070"]
-
-
+pc_componentes_urls = ["https://www.pccomponentes.com/buscar/?query=rtx+3060Ti#pg-1&or-search&fm-6",
+                       "https://www.pccomponentes.com/buscar/?query=rtx+3060Ti#pg-1&or-search&fm-6",
+                       "https://www.pccomponentes.com/buscar/?query=rtx+3070",
+                       "https://www.pccomponentes.com/buscar/?query=rtx+3080"]
 
 def make_num(string):
     nb=""
@@ -63,18 +64,21 @@ def get_tree(url):
 
 def print_results(results):
     print('')
-    [print("=",end='') for i in range(0,46)]
+    [print("=",end='') for i in range(0,56)]
     print(' Result ',end="")
-    [print("=",end='') for i in range(0,46)]
+    [print("=",end='') for i in range(0,56)]
     print('')
 
     if len(results) == 0:
         return
 
     for titre, dispo, prix in results:
-        print(f"{titre:<70}{dispo:<20}{prix}€")
+        lim = len(titre)
+        if lim > 80:
+            lim = 80
+        print(f"{titre[0:lim]:<90}{dispo:<20}{prix}€")
 
-    [print("=",end='') for i in range(0,100)]
+    [print("=",end='') for i in range(0,120)]
     print('')
 
 
