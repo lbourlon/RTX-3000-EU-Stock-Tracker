@@ -86,12 +86,12 @@ def check_top_achat(urls):
 
     return out_results
 
-@exception_safe
 def check_pc_componentes(url):
+    print(url)
     tree = util.get_tree(url)
 
-    nb_resultats = tree.xpath('/html/body/div[3]/div/div[3]/div[1]/div/div[2]/div[1]/div[1]/text()')[0]
-    nb = util.make_num(nb_resultats)
+    list = tree.xpath(f"//header[@class = 'c-product-card__header']")
+    print(list)
     
     results = []
 
@@ -111,7 +111,7 @@ def check_pc_componentes(url):
         if len(dispo_p2) >= 1 :
             dispo = dispo + ' ' + dispo_p2[0]
 
-        results.append(('LDLC.com    ' + util.clean_string(titre), util.clean_string(dispo), util.clean_string(prix)))
+        results.append(('pccomponents.com    ' + util.clean_string(titre), util.clean_string(dispo), util.clean_string(prix)))
 
         return results
 
