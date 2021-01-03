@@ -2,7 +2,7 @@
 This is a bot to check availibility of rtx 3000 cards on EU sites.
 Still working on it, let me know if you'd like to see new features.
 
-Compiled for windows.
+Compiled for windows with auto-py-to-exe : https://github.com/brentvollebregt/auto-py-to-exe/.
 
 # Install
 
