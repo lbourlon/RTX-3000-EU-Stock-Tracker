@@ -30,3 +30,5 @@ if __name__ == "__main__":
     full_list = ldlc_results + materiel_results + nvidia_results + top_achat_results + pc_componentes_results
     full_list = util.filter_results(full_list)
     util.print_results(full_list)
+
+    web_driver.quit()
