@@ -1,6 +1,7 @@
 import requests
 from selenium import webdriver
 from lxml import html
+from typing_extensions import final
 import util
 from util import clean_string, exception_safe
 
@@ -135,17 +136,17 @@ def ldlc_targeted(url):
 
 #---------------Functions where the sites require javascript-----------------
 
-@exception_safe
 def open_web_driver():
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
+
     try:
         driver = webdriver.Firefox(executable_path ='./geckodriver.exe', options = options)
     except:
-        driver = webdriver.Firefox(executable_path ='C:/Users/lbourlon/Documents/geckodriver.exe', options = options)
+        print(" -- Couldn't find 'geckodriver.exe'")
+        return None
 
     return driver
-
 
 @exception_safe
 def check_nvidia(url, web_driver):

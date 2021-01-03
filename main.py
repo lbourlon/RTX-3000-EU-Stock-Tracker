@@ -12,11 +12,16 @@ if __name__ == "__main__":
     print("- Booting Selenium Firefox Webdriver")
     web_driver = bot.open_web_driver()
 
-    print("- Checking nvidia.com")
-    nvidia_results = bot.check_nvidia(nvidia_founders_url, web_driver)
+    if(web_driver != None):
+        print("- Checking nvidia.com")
+        nvidia_results = bot.check_nvidia(nvidia_founders_url, web_driver)
 
-    print("- Checking material.net")
-    materiel_results = bot.check_materiel(util.materiel_urls, web_driver)
+        print("- Checking material.net")
+        materiel_results = bot.check_materiel(util.materiel_urls, web_driver)
+
+        web_driver.quit()
+    else:
+        print(" -- Skipping Javascript based sites")
 
     print("- Checking ldlc.com")
     ldlc_results = bot.check_ldlc(util.ldlc_urls) 
@@ -31,4 +36,5 @@ if __name__ == "__main__":
     full_list = util.filter_results(full_list)
     util.print_results(full_list)
 
-    web_driver.quit()
+
+    input("Press 'Enter' to exit the program")

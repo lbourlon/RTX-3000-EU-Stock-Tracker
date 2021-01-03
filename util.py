@@ -96,9 +96,10 @@ def exception_safe(store_checking_function):
         results = []
         try:
             results = store_checking_function(*args, **kwargs)
+        
         except Exception as e:
-            print(f"--Couldn't check stocks will trying again later")
-            print(f"--{e}",end="")
+            print(f" -- Couldn't check stocks will try again later")
+            print(f" -- {e}",end="")
             
         return results
     return wrapper
