@@ -139,7 +139,10 @@ def ldlc_targeted(url):
 def open_web_driver():
     options = webdriver.FirefoxOptions()
     options.add_argument('--headless')
-    driver = webdriver.Firefox(executable_path ='C:/Users/lbourlon/Documents/geckodriver.exe', options = options)
+    try:
+        driver = webdriver.Firefox(executable_path ='./geckodriver.exe', options = options)
+    except:
+        driver = webdriver.Firefox(executable_path ='C:/Users/lbourlon/Documents/geckodriver.exe', options = options)
 
     return driver
 
