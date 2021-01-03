@@ -1,17 +1,18 @@
 # RTX 3000 EU Stock Tracker
-Made a bot to check availibility of rtx 3000 cards on eu sites, only way I'll manage to snag a founders edition.
+This is a bot to check availibility of rtx 3000 cards on EU sites.
+Still working on it, let me know if you'd like to see new features.
+
+Compiled for windows.
 
 # Install
 
-- Clone the repository
-- Install geckodriver.exe from https://github.com/mozilla/geckodriver/releases
-  unzip it into the same folder as main.py 
-- Install the python libraries lxml, requests and selenium using pip (e.g. pip install requests, lxml, selenium)
+- Clone the Download the 'CompiledBot' Folder
+- Install Firefox
+- Install latest geckodriver.exe from https://github.com/mozilla/geckodriver/releases and unzip it into /CompileBot
 
 
 # Use 
-Run the program on the terminal (using 'python main.py')
-
+- Run CompiledBot.exe
 
 # Todo
 - Add support for Alternate.be site
