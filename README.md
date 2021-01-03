@@ -5,7 +5,7 @@ Made a bot to check availibility of rtx 3000 cards on eu sites, only way I'll ma
 
 - Clone the repository
 - Install geckodriver.exe from https://github.com/mozilla/geckodriver/releases
-  unzip it and copy its path into the open_web_driver function inside bot.py
+  unzip it into the same folder as main.py 
 - Install the python libraries lxml, requests and selenium using pip (e.g. pip install requests, lxml, selenium)
 
 
