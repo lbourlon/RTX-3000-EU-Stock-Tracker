@@ -119,7 +119,6 @@ def check_pc_componentes(urls):
         out_results += results
     return out_results
 
-        
 @exception_safe
 def ldlc_targeted(url):
     tree = util.get_tree(url)
