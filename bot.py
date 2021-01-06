@@ -107,8 +107,19 @@ def check_pc_componentes(urls):
             if(int(prix) >= 850):
                 continue
 
-            if('reacondicionado' in titre.lower() or 'recondicionado' in titre.lower() or 'water' in titre.lower() or 'hydro' in titre.lower()):
+            if 'rtx' not in titre.lower():
                 continue
+
+            
+            avoid_bool = False
+            avoid_words = ['reacondicionado', 'recondicionado', 'water', 'hydro', 'ekwb', 'intel', 'ryzen', '2080', '2070', 'i7', 'i5', 'Vector']
+            for a in avoid_words:
+                if a in util.clean_string(titre.lower()):
+                    avoid_bool = True
+            
+            if avoid_bool:
+                continue
+                    
                 
             if(util.clean_string(dispo).lower() == "sin fecha de entrada"):
                 dispo = "Rupture"
