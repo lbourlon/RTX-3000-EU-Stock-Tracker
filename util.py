@@ -23,6 +23,7 @@ pc_componentes_urls = ["https://www.pccomponentes.com/buscar/?query=rtx+3060Ti#p
                        "https://www.pccomponentes.com/buscar/?query=rtx+3080"]
 
 def make_num(string):
+
     nb=""
     for l in string:
         if l.isnumeric():
@@ -70,13 +71,14 @@ def print_results(results):
     print('')
 
     if len(results) == 0:
-        return
-
-    for titre, dispo, prix in results:
-        lim = len(titre)
-        if lim > 80:
-            lim = 80
-        print(f"{titre[0:lim]:<90}{dispo:<20}{prix}€")
+        print("No cards available for purchasse at this time.")
+    
+    else:
+        for titre, dispo, prix in results:
+            lim = len(titre)
+            if lim > 80:
+                lim = 80
+            print(f"{titre[0:lim]:<90}{dispo:<20}{prix}€")
 
     [print("=",end='') for i in range(0,120)]
     print('')
