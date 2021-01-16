@@ -3,7 +3,7 @@ from selenium import webdriver
 from lxml import html
 from typing_extensions import final
 import util
-from util import clean_string, exception_safe
+from util import exception_safe
 
 @exception_safe
 def check_ldlc(urls):
@@ -13,11 +13,15 @@ def check_ldlc(urls):
 
         nb_resultats = tree.xpath('/html/body/div[3]/div/div[3]/div[1]/div/div[2]/div[1]/div[1]/text()')[0]
         nb = util.make_num(nb_resultats)
-        
+
+        #48 is the maximum of items in a page
+        if int(nb) > 48:
+            nb = 48
+
         results = []
 
         for i in range(1,int(nb) + 1):
-            prix_ = tree.xpath(f"//*[@id='listing']//*[@data-position='{i}']/div[2]/div[4]/div[1]/div/text()")[0][0:-1]
+            prix_ = tree.xpath(f"//*[@id='listing']//*[@data-position='{i}']/div[2]/div[4]/div[1]/div/text()")[0]
             prix = util.make_num(prix_)
             if(int(prix) >= 850):
                 continue
@@ -32,7 +36,7 @@ def check_ldlc(urls):
             if len(dispo_p2) >= 1 :
                 dispo = dispo + ' ' + dispo_p2[0]
 
-            results.append(('LDLC.com    ' + util.clean_string(titre), util.clean_string(dispo), util.clean_string(prix)))
+            results.append(('LDLC.com             ' + util.clean_string(titre), util.clean_string(dispo), util.clean_string(prix)))
 
         out_results += results
         
@@ -82,7 +86,7 @@ def check_top_achat(urls):
                 dispo = raw_dispo
 
 
-            results.append(('topachat.com    ' + util.clean_string(titre), dispo, util.clean_string(prix)))
+            results.append(('topachat.com         ' + util.clean_string(titre), dispo, util.clean_string(prix)))
         out_results += results
 
     return out_results
@@ -116,6 +120,7 @@ def check_pc_componentes(urls):
             for a in avoid_words:
                 if a in util.clean_string(titre.lower()):
                     avoid_bool = True
+                    break
             
             if avoid_bool:
                 continue
@@ -184,7 +189,7 @@ def check_nvidia(url, web_driver):
         if dispo ==  "RUPTURE DE STOCK":
             dispo = "Rupture"
 
-        results.append(("FE    " + util.clean_string(name), util.clean_string(dispo), util.clean_string(prix)))
+        results.append(("FE                   " + util.clean_string(name), util.clean_string(dispo), util.clean_string(prix)))
 
     return results
 
@@ -197,6 +202,10 @@ def check_materiel(url_list, web_driver):
         nb_resultats = web_driver.find_element_by_xpath('//*[@id="tabProducts"]').text
         nb = util.make_num(nb_resultats)
 
+        if int(nb) > 48:
+            nb = 48
+        
+        
         results = []
         for i in range(1, int(nb) + 1):
             prix_ = web_driver.find_element_by_xpath(f"//*[@data-position = '{i}']/div[4]/div[1]/span").text[0:-2]
@@ -213,7 +222,7 @@ def check_materiel(url_list, web_driver):
             if dispo == 'RUPTURE':
                 dispo = "Rupture"
 
-            results.append(('Materiel.net    ' + util.clean_string(titre), util.clean_string(dispo), util.clean_string(prix)))
+            results.append(('Materiel.net         ' + util.clean_string(titre), util.clean_string(dispo), util.clean_string(prix)))
         
         output_results += results 
 
