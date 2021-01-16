@@ -1,6 +1,5 @@
 # RTX 3000 EU Stock Tracker
 
-<div>this is a div</div>
 
 This is a bot to check availibility of rtx 3000 cards on EU sites.
 Still working on it, let me know if you'd like to see new features.
