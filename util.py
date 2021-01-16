@@ -1,6 +1,9 @@
 import requests
 from lxml import html
 
+import shutil, sys
+from math import floor
+
 ldlc_urls = ["https://www.ldlc.com/recherche/rtx%203060ti/?sort=1"
              "https://www.ldlc.com/recherche/rtx%203070/?sort=1",
              "https://www.ldlc.com/recherche/rtx%203080/?sort=1"]
@@ -62,27 +65,67 @@ def get_tree(url):
     tree = html.fromstring(response.content)  
     return tree
 
+#returns the width - 2 of the terminal where this is running
+def get_terminal_width():
+    return shutil.get_terminal_size().columns - 2
 
 def print_results(results):
+
+    width = get_terminal_width()
+    head = " Result "
+
     print('')
-    [print("=",end='') for i in range(0,56)]
-    print(' Result ',end="")
-    [print("=",end='') for i in range(0,56)]
+    [print("=",end='') for i in range(0,floor((width-len(head))/2))]
+    print(head, end="")
+    [print("=",end='') for i in range(0,floor((width-len(head))/2))]
     print('')
 
     if len(results) == 0:
-        print("No cards available for purchasse at this time.")
-    
+        message = "No cards available for purchasse at this time."
+        lim = width - len(message) - 6
+        print(f"|| {message}{' ':<{lim}} ||")
+
     else:
+        liste_3060 = []
+        liste_3070 = []
+        liste_3080 = []
+        reste = []
+
+        list_of_lists = [liste_3060, liste_3070, liste_3080, reste]
+
         for titre, dispo, prix in results:
-            lim = len(titre)
-            if lim > 80:
-                lim = 80
-            print(f"{titre[0:lim]:<90}{dispo:<20}{prix}€")
+            if check_repeat(titre, dispo, prix, list_of_lists):
+                continue 
 
-    [print("=",end='') for i in range(0,120)]
-    print('')
+            elif "3060" in titre:
+                liste_3060.append((titre, dispo, prix))
+            elif "3070" in titre:
+                liste_3070.append((titre, dispo, prix))
+            elif "3080" in titre:
+                liste_3080.append((titre, dispo, prix))
+            else:
+                reste.append((titre,dispo, prix))
+        for liste in list_of_lists:
+            for titre, dispo, prix in liste:
+                lim = len(titre)
 
+                foo = floor(0.8 * width) - len(prix) - 3 
+                ba = floor(0.2 * width) - 3
+                
+                if lim + 3 >= foo:
+                    lim = foo - 4
+
+                print(f"|| {titre[0:lim]:<{foo}}{dispo:<{ba}}{prix}€ ||")
+
+    [print("=",end='') for i in range(0,width)]
+    print('\n')
+
+def check_repeat(titre, dispo, prix, list_of_lists):
+    for liste in list_of_lists:
+        if (titre, dispo, prix) in liste:
+            return True
+
+    return False
 
 def filter_results(results):
     out = []
@@ -99,9 +142,19 @@ def exception_safe(store_checking_function):
         try:
             results = store_checking_function(*args, **kwargs)
         
+        except KeyboardInterrupt:
+            sys.exit(0)
+        
         except Exception as e:
+            width = get_terminal_width()
+
             print(f" -- Couldn't check stocks will try again later")
-            print(f" -- {e}",end="")
+            message = str(e)[9:]
+            if len(message) > width - 4 : 
+                message_limit = width - 12
+                message = message[0:message_limit] + "... "
+
+            print(f" -- {message}")
             
         return results
     return wrapper

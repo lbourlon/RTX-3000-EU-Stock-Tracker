@@ -1,3 +1,5 @@
 *.log
 geckodriver.exe
 audo-py-config.json
+images/*
+*.png
