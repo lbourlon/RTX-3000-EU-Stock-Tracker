@@ -1,8 +1,13 @@
 # Description
 
+This is a bot to check availibility of rtx 3000 cards on EU sites. The program checks every 15 seconds for stocks in multiple sites.
 
-This is a bot to check availibility of rtx 3000 cards on EU sites.
-Still working on it, let me know if you'd like to see new features.
+Runs on:
+Materiel.net
+topachat.com
+ldlc.com
+pccomponentes.com
+nvidia.com (for the FEs)
 
 Compiled for windows with auto-py-to-exe : <https://github.com/brentvollebregt/auto-py-to-exe/>.
 
