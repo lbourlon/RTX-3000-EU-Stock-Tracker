@@ -1,5 +1,7 @@
 *.log
-geckodriver.exe
+geckodriver.*
+geckodriver
+__pycache__/*
 audo-py-config.json
 images/*
 *.png
